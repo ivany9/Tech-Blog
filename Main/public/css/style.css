@@ -22,3 +22,13 @@ header, .project:not(:last-child) {
   font-weight: bold;
   margin-left: -5px;
 }
+
+.navbar-brand img {
+
+   width: 50%;
+
+}
+
+body{
+  background:black;
+}
