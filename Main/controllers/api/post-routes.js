@@ -1,23 +1,24 @@
 const router = require('express').Router();
-const {Article, User, Comments } = require('../../models');
+const { Post, User, Comment } = require('../../models');
 const sequelize = require('../../config/connection');
 const withAuth = require('../../utils/auth');
+const multer = require('multer');
+const upload = multer({dest: './public/upload/'});
 
 
-router.post('/upload', (req, res) => {
- 
-  (async() => {
-
-    
-  console.log('before start');
+router.post('/upload', upload.single('avatar'), (req, res) => {
   
-    await Article.create({
+  (async() => {
+    console.log('before start');
+  
+    await Post.create({
       title: req.body.postTitle,
       post_content: req.body.postContent,
       user_id: req.session.user_id,
+  
     });
     
-    Article.findAll({
+    Post.findAll({
       where: {
         // use the ID from the session
         user_id: req.session.user_id
@@ -30,16 +31,16 @@ router.post('/upload', (req, res) => {
       ],
       include: [
         {
-          model: Comments,
+          model: Comment,
           attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
           include: {
             model: User,
-            attributes: ['username', 'twitter', 'github']
+            attributes: ['username']
           }
         },
         {
           model: User,
-          attributes: ['username', 'twitter', 'github']
+          attributes: ['username']
         }
       ]
     })
@@ -61,7 +62,7 @@ router.post('/upload', (req, res) => {
   // get all users
   router.get('/', (req, res) => {
       console.log('======================');
-    Article.findAll({
+      Post.findAll({
           attributes: [
               'id',
               'title',
@@ -72,16 +73,16 @@ router.post('/upload', (req, res) => {
         include: [
           // Comment model here -- attached username to comment
           {
-            model: Comments,
+            model: Comment,
             attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
             include: {
               model: User,
-              attributes: ['username', 'twitter', 'github']
+              attributes: ['username']
             }
           },
           {
             model: User,
-            attributes: ['username', 'twitter', 'github']
+            attributes: ['username']
           },
         ]
       })
@@ -93,7 +94,7 @@ router.post('/upload', (req, res) => {
     });
 
     router.get('/:id', (req, res) => {
-      Article.findOne({
+      Post.findOne({
         where: {
           id: req.params.id
         },
@@ -107,14 +108,14 @@ router.post('/upload', (req, res) => {
           // include the Comment model here:
           {
             model: User,
-            attributes: ['username', 'twitter', 'github']
+            attributes: ['username']
           },
           {
-            model: Comments,
+            model: Comment,
             attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
             include: {
               model: User,
-              attributes: ['username', 'twitter', 'github']
+              attributes: ['username']
             }
           }
         ]
@@ -133,7 +134,7 @@ router.post('/upload', (req, res) => {
   });
 
 router.post('/', withAuth, (req, res) => {
-   Article.create({
+    Post.create({
       title: req.body.title,
       post_content: req.body.post_content,
       user_id: req.session.user_id
@@ -146,7 +147,7 @@ router.post('/', withAuth, (req, res) => {
 });
 
 router.put('/:id', withAuth, (req, res) => {
-    Article.update({
+    Post.update({
         title: req.body.title,
         post_content: req.body.post_content
       },
@@ -169,7 +170,7 @@ router.put('/:id', withAuth, (req, res) => {
   });
 
   router.delete('/:id', withAuth, (req, res) => {
-   Article.destroy({
+    Post.destroy({
       where: {
         id: req.params.id
       }

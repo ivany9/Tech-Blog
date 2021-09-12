@@ -1,33 +1,33 @@
 const User = require('./User');
-const Comments = require('./Comments');
-const Article = require('./Article');
+const Comment = require('./Comment');
+const Post = require('./Post');
 
 //create associations
 
 
-Article.hasMany(Comments, {
+Post.hasMany(Comment, {
   foreignKey: 'post_id'
 });
-Article.belongsTo(User, {
+Post.belongsTo(User, {
     foreignKey: 'user_id',
 });
 
-Comments.belongsTo(User, {
+Comment.belongsTo(User, {
     foreignKey: 'user_id'
   });
   
-Comments.belongsTo(Article, {
+Comment.belongsTo(Post, {
     foreignKey: 'post_id'
 });
   
-User.hasMany(Comments, {
+User.hasMany(Comment, {
     foreignKey: 'user_id'
 });
 
-User.hasMany(Article, {
+User.hasMany(Post, {
   foreignKey: 'user_id'
 });
   
 
 
-module.exports = {User, Article, Comments};
+module.exports = {User, Post, Comment};
