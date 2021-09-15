@@ -19,7 +19,7 @@ router.post('/upload',upload.single('avatar'), (req, res) => {
       title: req.body.postTitle,
       post_content: req.body.postContent,
       user_id: req.session.user_id,
-     // image_name: req.file.filename
+      image_name: req.file.filename
     });
     
     Post.findAll({
@@ -32,7 +32,7 @@ router.post('/upload',upload.single('avatar'), (req, res) => {
         'title',
         'created_at',
         'post_content',
-        //'image_name'
+        'image_name'
       ],
       include: [
         {
@@ -71,7 +71,7 @@ router.post('/upload',upload.single('avatar'), (req, res) => {
               'title',
               'created_at',
               'post_content',
-           //   'image_name'
+              'image_name'
           ],
         order: [['created_at', 'DESC']],
         include: [
@@ -107,7 +107,7 @@ router.post('/upload',upload.single('avatar'), (req, res) => {
           'title',
           'created_at',
           'post_content',
-          //'image_name'
+          'image_name'
         ],
         include: [
           // include the Comment model here:

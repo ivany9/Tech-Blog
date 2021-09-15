@@ -12,7 +12,7 @@ async function signupFormHandler(event) {
         body: JSON.stringify({
           username,
           email,
-          twitter,
+           twitter,
           password
         }),
         headers: { 'Content-Type': 'application/json' }
