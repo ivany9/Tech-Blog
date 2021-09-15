@@ -2,7 +2,7 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 const bcrypt = require('bcrypt');
 
-
+// create our User model
 class User extends Model {
     // set up method to run on instance data (per user) to check password
     checkPassword(loginPw) {
@@ -10,10 +10,10 @@ class User extends Model {
     }
 }
 
-//User Model
+// define table columns and configuration
 User.init(
     {
-       
+        // define an id column
         id: {
           type: DataTypes.INTEGER,
           allowNull: false,
@@ -25,7 +25,14 @@ User.init(
           type: DataTypes.STRING,
           allowNull: false
         },
-      
+        twitter: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        github: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         // define an email column
         email: {
           type: DataTypes.STRING,

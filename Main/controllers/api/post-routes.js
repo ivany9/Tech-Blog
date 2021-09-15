@@ -6,16 +6,20 @@ const multer = require('multer');
 const upload = multer({dest: './public/upload/'});
 
 
-router.post('/upload', upload.single('avatar'), (req, res) => {
-  
+router.post('/upload',upload.single('avatar'), (req, res) => {
+  console.log("Hi");
+  console.log(req.body.postTitle);
+  console.log(req.body.postContent);
+  console.log(req.file);
+
   (async() => {
-    console.log('before start');
+  console.log('before start');
   
-    await Post.create({
+   await  Post.create({                                 
       title: req.body.postTitle,
       post_content: req.body.postContent,
       user_id: req.session.user_id,
-  
+     // image_name: req.file.filename
     });
     
     Post.findAll({
@@ -28,6 +32,7 @@ router.post('/upload', upload.single('avatar'), (req, res) => {
         'title',
         'created_at',
         'post_content',
+        //'image_name'
       ],
       include: [
         {
@@ -35,12 +40,12 @@ router.post('/upload', upload.single('avatar'), (req, res) => {
           attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
           include: {
             model: User,
-            attributes: ['username']
+            attributes: ['username', 'twitter', 'github']
           }
         },
         {
           model: User,
-          attributes: ['username']
+          attributes: ['username', 'twitter', 'github']
         }
       ]
     })
@@ -56,9 +61,7 @@ router.post('/upload', upload.single('avatar'), (req, res) => {
 
       console.log('after start');
     })();
-  });
-
-
+  });                                              
   // get all users
   router.get('/', (req, res) => {
       console.log('======================');
@@ -68,6 +71,7 @@ router.post('/upload', upload.single('avatar'), (req, res) => {
               'title',
               'created_at',
               'post_content',
+           //   'image_name'
           ],
         order: [['created_at', 'DESC']],
         include: [
@@ -77,12 +81,12 @@ router.post('/upload', upload.single('avatar'), (req, res) => {
             attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
             include: {
               model: User,
-              attributes: ['username']
+              attributes: ['username', 'twitter', 'github']
             }
           },
           {
             model: User,
-            attributes: ['username']
+            attributes: ['username', 'twitter', 'github']
           },
         ]
       })
@@ -103,19 +107,20 @@ router.post('/upload', upload.single('avatar'), (req, res) => {
           'title',
           'created_at',
           'post_content',
+          //'image_name'
         ],
         include: [
           // include the Comment model here:
           {
             model: User,
-            attributes: ['username']
+            attributes: ['username', 'twitter', 'github']
           },
           {
             model: Comment,
             attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
             include: {
               model: User,
-              attributes: ['username']
+              attributes: ['username', 'twitter', 'github']
             }
           }
         ]
