@@ -3,8 +3,7 @@
 
 # Deployed 
 
-Find the deployed application here:https://car-enthusiasts.herokuapp.com/
-
+Find the deployed application here: https://sdgfbb.herokuapp.com/
 ## Description
   
 
@@ -51,6 +50,7 @@ You can read comments, check the date and check the twitter user.
 
 ### Demo
 
+![video](https://user-images.githubusercontent.com/83906297/133869048-a7788dd7-6e7d-46bc-a67d-4fc2d79a05f6.gif)
 
 ## Installation
 
